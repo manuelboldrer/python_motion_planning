@@ -15,24 +15,25 @@ class Plot:
         self.start = Node(start, start, 0, 0)
         self.goal = Node(goal, goal, 0, 0)
         self.env = env
-        self.fig = plt.figure("planning")
-        self.ax = self.fig.add_subplot()
+        #self.fig = plt.figure("planning")
+        #self.ax = self.fig.add_subplot()
 
     def animation(self, path, name, cost=None, expand=None, history_pose=None, predict_path=None,
         cost_curve=None) -> None:
-        name = name + "\ncost: " + str(cost) if cost else name
-        self.plotEnv(name)
-        if expand:
-            self.plotExpand(expand)
-        if history_pose:
-            self.plotHistoryPose(history_pose, predict_path)
-        self.plotPath(path)
+        #name = name + "\ncost: " + str(cost) if cost else name
+        #self.plotEnv(name)
+        #if expand:
+        #    self.plotExpand(expand)
+        #if history_pose:
+        #    self.plotHistoryPose(history_pose, predict_path)
+        solutionPath = self.plotPath(path)
 
-        if cost_curve:
-            plt.figure("cost curve")
-            self.plotCostCurve(cost_curve, name)
+        #if cost_curve:
+        #    plt.figure("cost curve")
+        #    self.plotCostCurve(cost_curve, name)
 
-        plt.show()
+        #plt.show()
+        return solutionPath
 
     def plotEnv(self, name: str) -> None:
         '''
@@ -132,9 +133,10 @@ class Plot:
         '''
         path_x = [path[i][0] for i in range(len(path))]
         path_y = [path[i][1] for i in range(len(path))]
-        plt.plot(path_x, path_y, path_style, linewidth='2', color=path_color)
-        plt.plot(self.start.x, self.start.y, marker="s", color="#ff0000")
-        plt.plot(self.goal.x, self.goal.y, marker="s", color="#1155cc")
+        #plt.plot(path_x, path_y, path_style, linewidth='2', color=path_color)
+        #plt.plot(self.start.x, self.start.y, marker="s", color="#ff0000")
+        #plt.plot(self.goal.x, self.goal.y, marker="s", color="#1155cc")
+        return path
 
     def plotAgent(self, pose: tuple, radius: float=1) -> None:
         '''

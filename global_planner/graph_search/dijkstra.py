@@ -51,7 +51,6 @@ class Dijkstra(AStar):
 
         while OPEN:
             node = heapq.heappop(OPEN)
-
             # exists in CLOSED set
             if node in CLOSED:
                 continue
@@ -83,4 +82,5 @@ class Dijkstra(AStar):
                 heapq.heappush(OPEN, node_n)
             
             CLOSED.append(node)
+
         return ([], []), []

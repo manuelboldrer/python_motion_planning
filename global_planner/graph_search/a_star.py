@@ -7,6 +7,7 @@
 import os, sys
 import heapq
 
+
 sys.path.append(os.path.abspath(os.path.join(__file__, "../../")))
 
 from .graph_search import GraphSearcher
@@ -39,9 +40,10 @@ class AStar(GraphSearcher):
     '''
     def __init__(self, start: tuple, goal: tuple, env: Env, heuristic_type: str = "euclidean") -> None:
         super().__init__(start, goal, env, heuristic_type)
-
+        
     def __str__(self) -> str:
         return "A*"
+    
 
     def plan(self):
         '''
@@ -141,4 +143,5 @@ class AStar(GraphSearcher):
         Running both plannig and animation.
         '''
         (cost, path), expand = self.plan()
-        self.plot.animation(path, str(self), cost, expand)
+        return self.plot.animation(path, str(self), cost, expand)
+        

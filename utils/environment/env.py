@@ -44,7 +44,7 @@ class Grid(Env):
     '''
     Class for discrete 2-d grid map.
     '''
-    def __init__(self, x_range: int, y_range: int) -> None:
+    def __init__(self, x_range: int, y_range: int, obstacles0: list) -> None:
         super().__init__(x_range, y_range)
         # allowed motions
         self.motions = [Node((-1, 0), None, 1, None), Node((-1, 1),  None, sqrt(2), None),
@@ -52,6 +52,7 @@ class Grid(Env):
                         Node((1, 0),  None, 1, None), Node((1, -1),  None, sqrt(2), None),
                         Node((0, -1), None, 1, None), Node((-1, -1), None, sqrt(2), None)]
         # obstacles
+        self.obstacles0 = obstacles0
         self.obstacles = None
         self.obstacles_tree = None
         self.init()
@@ -70,6 +71,8 @@ class Grid(Env):
         for i in range(y):
             obstacles.add((0, i))
             obstacles.add((x - 1, i))
+            
+            
 
         # user-defined obstacles
         # for i in range(3, 15):
@@ -95,15 +98,25 @@ class Grid(Env):
         # for i in range(15, 18):
         #     obstacles.add((23, i))
         #     obstacles.add((24, i))
-        
-        for i in range(10, 21):
-            obstacles.add((i, 15))
-        for i in range(15):
-            obstacles.add((20, i))
-        for i in range(15, 30):
-            obstacles.add((30, i))
-        for i in range(16):
-            obstacles.add((40, i))
+        #for i in range(27, 27+3+1):
+        #    for j in range(11, 11+2+1):
+         #       obstacles.add((i, j))
+                
+        #for i in range(23, 23+8+1):
+        #    for j in range(18, 18+3+1):
+        #        obstacles.add((i, j))
+                
+        for k in range(len(self.obstacles0)):        
+            for i in range(self.obstacles0[k][0], self.obstacles0[k][0]+self.obstacles0[k][2]+1):
+                for j in range(self.obstacles0[k][1],self.obstacles0[k][1]+self.obstacles0[k][3]+1):
+                    obstacles.add((i, j))
+
+        #for i in range(15):
+        #    obstacles.add((20, i))
+        #for i in range(15, 30):
+        #    obstacles.add((30, i))
+        #for i in range(16):
+        #    obstacles.add((40, i))
 
         self.obstacles = obstacles
         self.obstacles_tree = cKDTree(np.array(list(obstacles)))
@@ -117,11 +130,12 @@ class Map(Env):
     '''
     Class for continuous 2-d map.
     '''
-    def __init__(self, x_range: int, y_range: int) -> None:
+    def __init__(self, x_range: int, y_range: int, obstacles0: list) -> None:
         super().__init__(x_range, y_range)
         self.boundary = None
         self.obs_circ = None
         self.obs_rect = None
+        self.obstacles0 = obstacles0
         self.init()
 
     def init(self):
@@ -139,19 +153,19 @@ class Map(Env):
         ]
 
         # user-defined obstacles
-        self.obs_rect = [
-            [14, 12, 8, 2],
-            [18, 22, 8, 3],
-            [26, 7, 2, 12],
-            [32, 14, 10, 2]
-        ]
+        self.obs_rect = self.obstacles0  #[
+        #    [5,10,2,10],
+        #    [10, 10, 2, 10],
+        #    [15, 10, 2, 10]
+        #]
 
         self.obs_circ = [
-            [7, 12, 3],
-            [46, 20, 2],
-            [15, 5, 2],
-            [37, 7, 3],
-            [37, 23, 3]
+        #    [7, 12, 3],
+        #    [46, 20, 2],
+        #    [15, 5, 2],
+        #    [37, 7, 3],
+        #    [37, 23, 3],
+        #     [25,17,5]
         ]
 
     def update(self, boundary, obs_circ, obs_rect):
